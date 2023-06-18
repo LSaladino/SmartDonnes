@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="mat-elevation-z6">
+    <button mat-icon-button routerLink="main">
+      <mat-icon>home</mat-icon>
+    </button>
+    <span>Donnes</span>
+    <span class="align-midle"></span>
+  
+    <!-- matMenu is key word -->
+    <button mat-button [matMenuTriggerFor]="CadastroNivel1">Cadastro</button>
+    <mat-menu #CadastroNivel1="matMenu">
+      <button mat-menu-item routerLink="cliente">Clientes</button>
+      <button mat-menu-item routerLink="imovel">Imóveis</button>
+      <button mat-menu-item routerLink="vistoria">Vistoria</button>
+      <!-- <button mat-menu-item routerLink="simple-form">Simple Form</button> -->
+    </mat-menu>
+    <!-- matMenu is key word -->
+  
+     <!-- matMenu is key word -->
+    <button mat-button [matMenuTriggerFor]="tabela">Componentes</button>
+    <mat-menu #tabela="matMenu">
+      <button mat-menu-item routerLink="table">Table</button>
+      <button mat-menu-item routerLink="datatable">DataTable</button>
+      <button mat-menu-item routerLink="selecao">Seleção</button>
+    </mat-menu>
+     <!-- matMenu is key word -->
+  
+    <button mat-button>Relatorios</button>
+   
+    <span class="example-spacer"></span>
+    <button mat-button routerLink="main">Início</button>
+    <button mat-button>Sobre</button>
+    <button mat-button>Contato</button>
+  </mat-toolbar>

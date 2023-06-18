@@ -1,0 +1,78 @@
+<app-titulo [p_titulo_componente]="p_titulo_cliente"></app-titulo>
+<hr>
+<div class="container">
+    <form [formGroup]="frmCliente" (ngSubmit)="SendClient(frmCliente, formDirective)" #formDirective="ngForm" novalidate>
+
+        <!-- RAZAO SOCIAL -->
+        <div class="form-group col-md-8">
+            <label for="lblrazao">Razão Social</label>
+            <input type="text" class="form-control" formControlName="RazaoSocial"
+                [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['RazaoSocial'].errors}">
+
+            <div *ngIf="p_submitted && frmCliente.controls['RazaoSocial'].errors" class="text-danger">
+                <div *ngIf="p_submitted && frmCliente.controls['RazaoSocial'].errors['required']">
+                    [Razão Social] é obrigatório !
+                </div>
+                <div *ngIf="p_submitted && frmCliente.controls['RazaoSocial'].errors['minlength']">
+                    [Razão Social] deve ter no mínimo 10 caracteres !
+                </div>
+            </div>
+        </div>
+
+        <!-- PESSOA CONTATO -->
+
+        <div class="form-group col-md-8">
+            <label for="lblpessoa" class="for">Pessoa de Contato</label>
+            <input type="text" class="form-control" formControlName="PessoaContato"
+                [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['PessoaContato'].errors}">
+
+            <div *ngIf="p_submitted && frmCliente.controls['PessoaContato'].errors" class="text-danger">
+                <div *ngIf="p_submitted && frmCliente.controls['PessoaContato'].errors['required']">
+                    [Pessoa de contato] é obrigatório
+                </div>
+                <div *ngIf="p_submitted && frmCliente.controls['PessoaContato'].errors['minlength']">
+                    [Pessoa de contato] deve ter no mínimo 5 caracteres !
+                </div>
+            </div>
+        </div>
+
+        <!-- CNPJ -->
+
+        <div class="form-group col-md-4">
+            <label for="lblcnpj" class="for">CNPJ</label>
+            <input type="text" class="form-control" formControlName="Cnpj"
+                [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['Cnpj'].errors}">
+
+            <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors" class="text-danger">
+
+                <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors['required']">
+                    [CNPJ] é obrigatório
+                </div>
+                <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors['maxlength']">
+                    [CNPJ] deve ter no máximo 14 caracteres !
+                </div>
+
+            </div>
+        </div>
+
+        <!-- DATA CLIENTE -->
+        <br>
+        <div class="form-group col-md-4">
+            <mat-form-field color="accent">
+                <mat-label>Data de cliente ?</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="DataCliente" name="DataCliente">
+                <mat-hint></mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <hr>
+            <div style="float:left">
+                <!-- I USE FORMS VALIDATIONS -->
+                <button type="submit" class="btn btn-success">Gravar</button>
+            </div>
+        </div>
+    </form>
+</div>
