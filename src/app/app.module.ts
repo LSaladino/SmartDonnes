@@ -13,6 +13,7 @@ import { MenubarComponent } from './components/menubar/menubar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './components/main/main.component';
 import { TituloComponent } from './components/titulo/titulo.component';
+import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TituloComponent } from './components/titulo/titulo.component';
     ClienteComponent,
     MenubarComponent,
     MainComponent,
-    TituloComponent
+    TituloComponent,
+    AvaliacaoComponent
   ],
   imports: [
     BrowserModule,
