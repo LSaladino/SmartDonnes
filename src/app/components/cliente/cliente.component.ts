@@ -69,7 +69,6 @@ export class ClienteComponent {
     })
   }
 
-
   ResetForm(): void {
     this.frmCliente.reset();
   }
