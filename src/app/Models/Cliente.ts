@@ -1,8 +1,8 @@
 export class Cliente {
     id?: number;
-    razao_social?: string;
-    pessoa_contato?: string;
+    razaoSocial?: string;
+    pessoaContato?: string;
     cnpj?: string;
-    data_cliente?: Date;
+    dataCliente?: Date;
 
 }

@@ -34,7 +34,7 @@ import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
     BrowserAnimationsModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-br' },
-],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

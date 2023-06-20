@@ -20,7 +20,7 @@ export class ClienteComponent {
   public p_submitted!: boolean;
   public p_titulo_cliente = 'Cadastro de Clientes';
   public dataEntrada!: moment.Moment;
-  // public dataEntrada!:Date;
+  public oClientes: Cliente[] = [];
 
   // ------------------------------------------
 
@@ -58,6 +58,7 @@ export class ClienteComponent {
     this.ResetForm();
   }
 
+  // VERBS POST METHOD
   CreateNewClientPrepare(cliente: Cliente) {
     this.clienteService.CreateNewClient(cliente).subscribe({
       next: (newCustomer = cliente) => {
@@ -71,5 +72,17 @@ export class ClienteComponent {
 
   ResetForm(): void {
     this.frmCliente.reset();
+  }
+
+  // GET ALL METHOD
+  carregarClientes() : void {
+    this.clienteService.GetAllClient().subscribe({
+      next: (clientes: Cliente[]) => {
+        this.oClientes = clientes;
+      },
+      error: (err) => {
+        console.log('somethings wrong occurred: ' + err);
+      }
+    });
   }
 }
