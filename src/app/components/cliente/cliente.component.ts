@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular
 import { Cliente } from 'src/app/Models/Cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cliente',
@@ -12,7 +13,8 @@ import * as moment from 'moment';
 export class ClienteComponent {
 
   constructor(private clienteService: ClienteService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private toastr:ToastrService) {
     this.CreateFormCliente();
   };
 
@@ -21,6 +23,7 @@ export class ClienteComponent {
   public p_titulo_cliente = 'Cadastro de Clientes';
   public dataEntrada!: moment.Moment;
   public oClientes: Cliente[] = [];
+  public oclienteCnpj = new Cliente();
 
   // ------------------------------------------
 
@@ -34,15 +37,15 @@ export class ClienteComponent {
     })
   }
 
-  SendClient(formData: any, formDirective: FormGroupDirective) {
+  SendClient() {
     this.p_submitted = true;
 
     if (this.frmCliente.invalid) {
       console.log("INVALID FORMS");
       return
     }
+    //------------------------------------------
     this.dataEntrada = moment.utc(this.frmCliente.value.DataCliente).local();
-    // this.dataEntrada = moment.utc(this.frmCliente.value.DataCliente).local();
     // const currentDate = new Date();
 
     // const currentHour = currentDate.getHours();
@@ -52,10 +55,11 @@ export class ClienteComponent {
     // this.frmCliente.value.DataCliente = this.dataEntrada.format("YYYY-MM-DD") + "T" + currentHour + ":" + currentMinute + ":" + currentSecond;
     this.frmCliente.value.DataCliente = this.dataEntrada;
     console.log(this.frmCliente.value)
-    this.CreateNewClientPrepare(this.frmCliente.value);
-    // formDirective.resetForm();
-    // this.frmCliente.reset();
-    this.ResetForm();
+
+    // this.CreateNewClientPrepare(this.frmCliente.value);
+    this.obterClientePorCnpj(this.frmCliente.value.Cnpj);
+
+    // this.ResetForm();
   }
 
   // VERBS POST METHOD
@@ -63,6 +67,7 @@ export class ClienteComponent {
     this.clienteService.CreateNewClient(cliente).subscribe({
       next: (newCustomer = cliente) => {
         console.log('Novo Cliente: ' + newCustomer);
+        this.toastr.success("Cadastro realizado com sucesso !", "AVISO");
       },
       error: (err) => {
         console.log('Found errors: ' + err);
@@ -75,7 +80,7 @@ export class ClienteComponent {
   }
 
   // GET ALL METHOD
-  carregarClientes() : void {
+  carregarClientes(): void {
     this.clienteService.GetAllClient().subscribe({
       next: (clientes: Cliente[]) => {
         this.oClientes = clientes;
@@ -85,4 +90,31 @@ export class ClienteComponent {
       }
     });
   }
+
+  // GET ALL METHOD
+  obterClientePorCnpj(p_cnpj: string): any {
+    this.clienteService.GetClientByCnpj(p_cnpj).subscribe({
+      next: (clientes: Cliente) => {
+        if (p_cnpj == clientes.cnpj) {
+          this.oclienteCnpj = clientes;
+          this.toastr.error("CNPJ JA ESTÁ EM USO !", "AVISO");
+        }
+      },
+      error: (err) => {
+        this.CreateNewClientPrepare(this.frmCliente.value);
+        this.ResetForm();
+      }
+    });
+  }
+
+  // validaCnpjExiste(cnpj: string): void {
+
+  //   let novocnpj = this.obterClientePorCnpj(cnpj);
+
+  //   let cnpj_Ret = novocnpj;
+  //   if (cnpj_Ret == cnpj) {
+  //     console.log("CNPJ JÁ EXISTE !!!" + cnpj);
+  //   }
+
+  // }
 }

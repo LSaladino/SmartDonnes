@@ -1,7 +1,7 @@
 <app-titulo [p_titulo_componente]="p_titulo_cliente"></app-titulo>
 <hr>
 <div class="container">
-    <form [formGroup]="frmCliente" (ngSubmit)="SendClient(frmCliente, formDirective)" #formDirective="ngForm" novalidate>
+    <form [formGroup]="frmCliente" (ngSubmit)="SendClient()" #formDirective="ngForm" novalidate>
 
         <!-- RAZAO SOCIAL -->
         <div class="form-group col-md-8">
@@ -37,10 +37,10 @@
         </div>
 
         <!-- CNPJ -->
-
         <div class="form-group col-md-4">
             <label for="lblcnpj" class="for">CNPJ</label>
-            <input type="text" class="form-control" formControlName="Cnpj"
+            <input #myCnpj type="text" class="form-control" formControlName="Cnpj" 
+             (submit)="obterClientePorCnpj(myCnpj.value)"
                 [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['Cnpj'].errors}">
 
             <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors" class="text-danger">
@@ -58,7 +58,7 @@
         <!-- DATA CLIENTE -->
         <br>
         <div class="form-group col-md-4">
-            <mat-form-field color="accent">
+            <mat-form-field appearance="outline">
                 <mat-label>Data de cliente ?</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="DataCliente" name="DataCliente">
                 <mat-hint></mat-hint>
@@ -71,7 +71,7 @@
             <hr>
             <div style="float:left">
                 <!-- I USE FORMS VALIDATIONS -->
-                <button type="submit" class="btn btn-success">Gravar</button>
+                <button type="submit" class="btn btn-success" [disabled]="!frmCliente.valid">Gravar</button>
             </div>
         </div>
     </form>

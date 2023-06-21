@@ -1,14 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Avaliacao } from 'src/app/Models/Avaliacao';
 import { AvaliacaoService } from 'src/app/services/avaliacao.service';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { Cliente } from 'src/app/Models/Cliente';
 
+import{MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import {default as _rollupMoment, Moment} from 'moment';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+
+const moment = _rollupMoment || _moment;
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @Component({
   selector: 'app-avaliacao',
   templateUrl: './avaliacao.component.html',
-  styleUrls: ['./avaliacao.component.css']
+  styleUrls: ['./avaliacao.component.css'],
+  //-----------------------------------
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class AvaliacaoComponent implements OnInit {
 
@@ -21,13 +59,12 @@ export class AvaliacaoComponent implements OnInit {
   public p_submitted!: boolean;
   public p_titulo_avaliacao = 'Cadastro de Avaliações';
 
-
   toppings = new FormControl();
-
   toppingList?: Cliente[];
-
-
   selectedToppings: any;
+
+  date = new FormControl(moment());
+
 
 
   CreateFormAvaliacao() {
@@ -50,8 +87,6 @@ export class AvaliacaoComponent implements OnInit {
 
     console.log(this.frmAvaliacao.value)
     this.CreateNewAvaliaPrepare(this.frmAvaliacao.value);
-    // formDirective.resetForm();
-    // this.frmCliente.reset();
     this.ResetForm();
   }
 
@@ -87,7 +122,13 @@ export class AvaliacaoComponent implements OnInit {
     })
   }
 
-
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value!;
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+  }
 
 
 }

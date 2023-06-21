@@ -3,32 +3,33 @@
 <div class="container">
     <form [formGroup]="frmAvaliacao" (ngSubmit)="EnviarAvaliacao()">
 
-        <!-- MES ANO -->
-        <div class="form-group col-md-8">
-            <label for="lblMesAno" class="for">Mes Ano</label>
-            <input type="text" class="form-control" formControlName="MesAno"
-                [ngClass]="{'is-invalid':p_submitted && frmAvaliacao.controls['MesAno'].errors}">
-
-            <div *ngIf="p_submitted && frmAvaliacao.controls['MesAno'].errors" class="text-danger">
-                <div *ngIf="p_submitted && frmAvaliacao.controls['MesAno'].errors['required']">
-                    [Mês Ano] é obrigatório !
-                </div>
-            </div>
+        <div class="form-group col-md-4">
+            <!-- MES ANO -->
+            <mat-form-field appearance="outline">
+                <mat-label>Month and Year</mat-label>
+                <input matInput [matDatepicker]="dp" [formControl]="date">
+                <mat-hint>MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)"
+                    panelClass="example-month-picker">
+                </mat-datepicker>
+            </mat-form-field>
         </div>
 
-        <!-- CLIENTES AVALIADOS -->
-
-        <mat-form-field appearance="outline" style="width: 500px;">
-            <mat-select placeholder="Clientes" [formControl]="toppings" [(value)]="selectedToppings" multiple>
-              <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping.razaoSocial}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <!-- <p>
+        <div class="form-group col-md-4">
+            <!-- CLIENTES AVALIADOS -->
+            <mat-form-field appearance="outline" style="width: 500px;">
+                <mat-select placeholder="Clientes" [formControl]="toppings" [(value)]="selectedToppings" multiple>
+                    <mat-option *ngFor="let topping of toppingList"
+                        [value]="topping">{{topping.razaoSocial}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <p>
             {{selectedToppings | json}}
-          </p> -->
+            </p> -->
+        </div>
 
         <!-- NOTA AVALIACAO -->
-
         <div class="form-group col-md-4">
             <label for="lblNotaAval" class="for">Nota de Avaliação</label>
             <input type="number" class="form-control" formControlName="NotaAvaliacao" min="0" max="10"
@@ -47,7 +48,7 @@
 
         <mat-form-field appearance="outline" style="width: 450px;">
             <textarea matInput placeholder="Descrição do motivo da avaliação" formControlName="MotivoAvaliacao"
-            cdkTextareaAutosize [cdkAutosizeMinRows]="4" [cdkAutosizeMaxRows]="10">
+                cdkTextareaAutosize [cdkAutosizeMinRows]="4" [cdkAutosizeMaxRows]="10">
 
             </textarea>
         </mat-form-field>

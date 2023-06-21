@@ -14,7 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './components/main/main.component';
 import { TituloComponent } from './components/titulo/titulo.component';
 import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
-
+import { TableComponent } from './components/cliente/table/table.component';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastrComponentlessModule } from 'ngx-toastr/public_api';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +24,8 @@ import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
     MenubarComponent,
     MainComponent,
     TituloComponent,
-    AvaliacaoComponent
+    AvaliacaoComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,14 @@ import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-center-center',
+      preventDuplicates:true,
+      timeOut:3000,
+      easing:'ease-in',
+      easeTime:1000
+    })
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-br' },
   ],

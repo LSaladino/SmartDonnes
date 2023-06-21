@@ -28,6 +28,11 @@ export class ClienteService {
     return this.http.get<Cliente>(`${this.MainUrl}/${id}`);
   }
 
+   //GET BY CNPJ
+   GetClientByCnpj(cnpj: string): Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.MainUrl}/${'bycnpj'}/${cnpj}`);
+  }
+
   // PUT METHOD
   UpdateClient(clienteId: number, cliente: Cliente) {
     return this.http.put<Cliente>(`${this.MainUrl}/${clienteId}`, cliente);
