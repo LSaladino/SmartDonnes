@@ -16,7 +16,8 @@ import { TituloComponent } from './components/titulo/titulo.component';
 import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
 import { TableComponent } from './components/cliente/table/table.component';
 import { ToastrModule } from 'ngx-toastr';
-import { ToastrComponentlessModule } from 'ngx-toastr/public_api';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { NgxMaskModule } from 'ngx-mask';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { ToastrComponentlessModule } from 'ngx-toastr/public_api';
     MainComponent,
     TituloComponent,
     AvaliacaoComponent,
-    TableComponent
+    TableComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -37,10 +39,13 @@ import { ToastrComponentlessModule } from 'ngx-toastr/public_api';
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-center-center',
-      preventDuplicates:true,
-      timeOut:3000,
-      easing:'ease-in',
-      easeTime:1000
+      preventDuplicates: true,
+      timeOut: 3000,
+      easing: 'ease-in',
+      easeTime: 1000
+    }),
+    NgxMaskModule.forRoot({
+      dropSpecialCharacters: true //ao salvar não mantem a mascara
     })
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-br' },

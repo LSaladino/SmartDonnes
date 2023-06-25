@@ -8,7 +8,7 @@ import { Avaliacao } from '../Models/Avaliacao';
 })
 export class AvaliacaoService {
 
-  MainUrl = `${MY_ENVIRONMENT.mainUrl}/api/cliente`;
+  MainUrl = `${MY_ENVIRONMENT.mainUrl}/api/avaliacao`;
 
   constructor(private http: HttpClient) { }
 

@@ -1,7 +1,7 @@
 export class Avaliacao {
     id?: number;
-    MesAno?: Date;
-    ClientesAvaliados?: string;
-    NotaAvaliacao?: number;
-    MotivoAvaliacao?: string;
+    mesAno?: Date;
+    clientesAvaliados?: string[];
+    notaAvaliacao?: number;
+    motivoAvaliacao?: string;
 }

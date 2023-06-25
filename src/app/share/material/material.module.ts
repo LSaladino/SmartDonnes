@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 //table
 import { MatTableModule } from '@angular/material/table';
@@ -42,6 +43,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     // -----------------
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule
 
   ]
 })

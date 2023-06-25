@@ -1,78 +1,126 @@
-<app-titulo [p_titulo_componente]="p_titulo_cliente"></app-titulo>
-<hr>
-<div class="container">
-    <form [formGroup]="frmCliente" (ngSubmit)="SendClient()" #formDirective="ngForm" novalidate>
+<div class="row" style="margin-left: 2px;margin-right: 2px;">
+    <div class="col-sm-4"  *ngIf="clienteSelecionado">
 
-        <!-- RAZAO SOCIAL -->
-        <div class="form-group col-md-8">
-            <label for="lblrazao">Razão Social</label>
-            <input type="text" class="form-control" formControlName="RazaoSocial"
-                [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['RazaoSocial'].errors}">
+        <div class="row">
+            <div class="mr-auto">
+              <!-- <app-titulo [p_titulo]="'Matrícula: ' + alunoSelecionado.id"></app-titulo> -->
+              <app-titulo [p_titulo_componente]="clienteSelecionado.id == 0 ? 'Novo cliente': 'ID: '+ clienteSelecionado.id + ' - ' + 'CNPJ: ' + clienteSelecionado.cnpj"></app-titulo>
+            </div>
+            <div class="mt-1" style="text-align: right;">
+              <button class="btn btn-outline-danger" (click)="Voltar()">Fechar</button>
+            </div>
+          </div>
 
-            <div *ngIf="p_submitted && frmCliente.controls['RazaoSocial'].errors" class="text-danger">
-                <div *ngIf="p_submitted && frmCliente.controls['RazaoSocial'].errors['required']">
-                    [Razão Social] é obrigatório !
-                </div>
-                <div *ngIf="p_submitted && frmCliente.controls['RazaoSocial'].errors['minlength']">
-                    [Razão Social] deve ter no mínimo 10 caracteres !
+        <form [formGroup]="frmCliente" (ngSubmit)="SendClient()">
+    
+            <!-- RAZAO SOCIAL -->
+            <div class="form-group">
+                <label for="lblrazao">Razão Social</label>
+                <input type="text" class="form-control" formControlName="razaoSocial"
+                    [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['razaoSocial'].errors}">
+    
+                <div *ngIf="p_submitted && frmCliente.controls['razaoSocial'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmCliente.controls['razaoSocial'].errors['required']">
+                        [Razão Social] é obrigatório !
+                    </div>
+                    <div *ngIf="p_submitted && frmCliente.controls['razaoSocial'].errors['minlength']">
+                        [Razão Social] deve ter no mínimo 10 caracteres !
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- PESSOA CONTATO -->
-
-        <div class="form-group col-md-8">
-            <label for="lblpessoa" class="for">Pessoa de Contato</label>
-            <input type="text" class="form-control" formControlName="PessoaContato"
-                [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['PessoaContato'].errors}">
-
-            <div *ngIf="p_submitted && frmCliente.controls['PessoaContato'].errors" class="text-danger">
-                <div *ngIf="p_submitted && frmCliente.controls['PessoaContato'].errors['required']">
-                    [Pessoa de contato] é obrigatório
-                </div>
-                <div *ngIf="p_submitted && frmCliente.controls['PessoaContato'].errors['minlength']">
-                    [Pessoa de contato] deve ter no mínimo 5 caracteres !
+    
+            <!-- PESSOA CONTATO -->
+    
+            <div class="form-group">
+                <label for="lblpessoa" class="for">Pessoa de Contato</label>
+                <input type="text" class="form-control" formControlName="pessoaContato"
+                    [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['pessoaContato'].errors}">
+    
+                <div *ngIf="p_submitted && frmCliente.controls['pessoaContato'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmCliente.controls['pessoaContato'].errors['required']">
+                        [Pessoa de contato] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmCliente.controls['pessoaContato'].errors['minlength']">
+                        [Pessoa de contato] deve ter no mínimo 5 caracteres !
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- CNPJ -->
-        <div class="form-group col-md-4">
-            <label for="lblcnpj" class="for">CNPJ</label>
-            <input #myCnpj type="text" class="form-control" formControlName="Cnpj" 
-             (submit)="obterClientePorCnpj(myCnpj.value)"
-                [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['Cnpj'].errors}">
-
-            <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors" class="text-danger">
-
-                <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors['required']">
-                    [CNPJ] é obrigatório
+    
+            <!-- CNPJ -->
+            <div class="form-group">
+                <label for="lblcnpj" class="for">CNPJ</label>
+                <input #myCnpj type="text" class="form-control" formControlName="cnpj" 
+                mask="00-000-000/0000-00" (submit)="obterClientePorCnpj(myCnpj.value)"
+                    [ngClass]="{'is-invalid':p_submitted && frmCliente.controls['cnpj'].errors}">
+    
+                <div *ngIf="p_submitted && frmCliente.controls['cnpj'].errors" class="text-danger">
+    
+                    <div *ngIf="p_submitted && frmCliente.controls['cnpj'].errors['required']">
+                        [CNPJ] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmCliente.controls['cnpj'].errors['maxlength']">
+                        [CNPJ] deve ter no máximo 14 caracteres !
+                    </div>
+    
                 </div>
-                <div *ngIf="p_submitted && frmCliente.controls['Cnpj'].errors['maxlength']">
-                    [CNPJ] deve ter no máximo 14 caracteres !
+            </div>
+    
+            <!-- DATA CLIENTE -->
+            <br>
+            <div class="form-group">
+                <mat-form-field color="accent" appearance="outline">
+                    <mat-label>Data de cliente ?</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dataCliente" name="dataCliente">
+                    <mat-hint></mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+    
+            <div class="form-group">
+                <hr>
+                <div style="float:left">
+                    <!-- I USE FORMS VALIDATIONS -->
+                    <!-- <button type="submit" class="btn btn-success" [disabled]="!frmCliente.valid">Gravar</button> -->
+                    <button type="submit" class="btn btn-success">Gravar</button>
                 </div>
-
+                <div style="float:right">
+                    <button class="btn btn-warning" (click)="LimpaClienteForms()">Limpar</button>
+                  </div>
             </div>
-        </div>
+        </form>
+    </div>
 
-        <!-- DATA CLIENTE -->
-        <br>
-        <div class="form-group col-md-4">
-            <mat-form-field appearance="outline">
-                <mat-label>Data de cliente ?</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="DataCliente" name="DataCliente">
-                <mat-hint></mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
-
-        <div class="form-group">
-            <hr>
-            <div style="float:left">
-                <!-- I USE FORMS VALIDATIONS -->
-                <button type="submit" class="btn btn-success" [disabled]="!frmCliente.valid">Gravar</button>
-            </div>
-        </div>
-    </form>
+    <!-- TABLE -->
+    <div [ngClass]="{'col-sm-8': clienteSelecionado, 'col-sm-12': !clienteSelecionado}">
+        <app-titulo [p_titulo_componente]="p_titulo_cliente">
+          <button class="btn btn-success" style="float:right" (click)="clienteNovo()">Novo Cliente</button>
+        </app-titulo>
+        <table class="table table-light table-hover">
+          <!-- <table class="table table-light"> -->
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Razão Social</th>
+              <th scope="col">Pessoa contato</th>
+              <th scope="col">CNPJ</th>
+              <th scope="col">Data</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let v_cliente of oClientes">
+              <td scope="row">{{v_cliente.id}}</td>
+              <td>{{v_cliente.razaoSocial}}</td>
+              <td>{{v_cliente.pessoaContato}}</td>
+              <td>{{v_cliente.cnpj}}</td>
+              <td>{{v_cliente.dataCliente}}</td>
+              <td>
+                <button class="text-dark btn btn-sm btn-outline-warning" (click)="clienteSelect(v_cliente)">Detalhe</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="clienteExcluir(v_cliente)">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 </div>

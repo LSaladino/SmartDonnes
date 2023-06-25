@@ -33,6 +33,11 @@ export class ClienteService {
     return this.http.get<Cliente>(`${this.MainUrl}/${'bycnpj'}/${cnpj}`);
   }
 
+   //ANOTHER GET METHOD
+   GetClientTwoField(bValor: boolean): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${this.MainUrl}/tocliente/${bValor}`);
+  }
+
   // PUT METHOD
   UpdateClient(clienteId: number, cliente: Cliente) {
     return this.http.put<Cliente>(`${this.MainUrl}/${clienteId}`, cliente);
