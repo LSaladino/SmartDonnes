@@ -3,4 +3,4 @@ export interface IConfirmDialogData {
     message: string;
     confirmText: string;
     cancelText: string;
-}
+} 
