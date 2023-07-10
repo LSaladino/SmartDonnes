@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ClienteComponent } from './components/cliente/cliente.component';
+import { BoletoComponent } from './components/boleto/boleto.component';
 
 // ---------------------------------------------------------------------------
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,21 +13,27 @@ import { MenubarComponent } from './components/menubar/menubar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './components/main/main.component';
 import { TituloComponent } from './components/titulo/titulo.component';
-import { AvaliacaoComponent } from './components/avaliacao/avaliacao.component';
-import { TableComponent } from './components/cliente/table/table.component';
+import { PixComponent } from './components/pix/pix.component';
+import { TableBoletoComponent } from './components/boleto/table/table-boleto.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { TablePixComponent } from './components/pix/table/table-pix.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { MeioPagamentoComponent } from './components/meio-pagamento/meio-pagamento.component';
+import { TableMeioPagamentoComponent } from './components/meio-pagamento/table/table-meio-pagamento.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ClienteComponent,
+    BoletoComponent,
     MenubarComponent,
     MainComponent,
     TituloComponent,
-    AvaliacaoComponent,
-    TableComponent,
-    ConfirmDialogComponent
+    PixComponent,
+    TableBoletoComponent,
+    ConfirmDialogComponent,
+    TablePixComponent,
+    MeioPagamentoComponent,
+    TableMeioPagamentoComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +50,7 @@ import { NgxMaskModule } from 'ngx-mask';
       easing: 'ease-in',
       easeTime: 1000
     }),
-    NgxMaskModule.forRoot({
-      dropSpecialCharacters: true //ao salvar não mantem a mascara
-    })
+    QRCodeModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-br' },
   ],

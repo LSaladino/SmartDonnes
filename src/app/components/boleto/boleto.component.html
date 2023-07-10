@@ -1,0 +1,122 @@
+<div class="row" style="margin-left: 2px;margin-right: 2px;">
+    <div class="col-sm-4" *ngIf="boletoSelecionado">
+
+        <div class="row">
+            <div class="mr-auto">
+                <app-titulo
+                    [p_titulo_componente]="boletoSelecionado.id == 0 ? 'Novo boleto': 'ID: '+ boletoSelecionado.id "></app-titulo>
+            </div>
+            <div class="mt-1" style="text-align: right;">
+                <button class="btn btn-outline-danger" (click)="Voltar()">Fechar</button>
+            </div>
+        </div>
+
+        <form [formGroup]="frmBoleto" (ngSubmit)="SendBoleto()">
+
+            <!-- NOME CLIENTE -->
+            <div class="form-group">
+                <label for="lblnomecliente">Nome Cliente</label>
+                <input type="text" class="form-control" formControlName="nomeCliente"
+                    [ngClass]="{'is-invalid':p_submitted && frmBoleto.controls['nomeCliente'].errors}">
+
+                <div *ngIf="p_submitted && frmBoleto.controls['nomeCliente'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmBoleto.controls['nomeCliente'].errors['required']">
+                        [Nome cliente] é obrigatório !
+                    </div>
+                    <div *ngIf="p_submitted && frmBoleto.controls['nomeCliente'].errors['minlength']">
+                        [Nome cliente] deve ter no mínimo 3 caracteres !
+                    </div>
+                </div>
+            </div>
+
+            <!-- VALOR -->
+
+            <div class="form-group">
+                <label for="lblvalor" class="for">Valor</label>
+                <input type="text" class="form-control" formControlName="valor"
+                    [ngClass]="{'is-invalid':p_submitted && frmBoleto.controls['valor'].errors}">
+
+                <div *ngIf="p_submitted && frmBoleto.controls['valor'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmBoleto.controls['valor'].errors['required']">
+                        [Valor] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmBoleto.controls['valor'].errors['minlength']">
+                        [Valor] deve ter no mínimo 5 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmBoleto.controls['valor'].errors['pattern']">
+                        [Valor] deve ser números !
+                    </div>
+                </div>
+            </div>
+
+            <!-- LINHA DIGITAVEL -->
+            <div class="form-group">
+                <label for="lbllinhadigitavel" class="for">Linha Digitável</label>
+                <input type="text" class="form-control" formControlName="linhaDigitavel"
+                    [ngClass]="{'is-invalid':p_submitted && frmBoleto.controls['linhaDigitavel'].errors}">
+
+                <div *ngIf="p_submitted && frmBoleto.controls['linhaDigitavel'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmBoleto.controls['linhaDigitavel'].errors['required']">
+                        [Linha digitável] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmBoleto.controls['linhaDigitavel'].errors['minlength']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [Linha Digitável] deve ter no mínimo 9 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmBoleto.controls['linhaDigitavel'].errors['maxLength']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [Linha Digitável] deve ter no máximo 10 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmBoleto.controls['linhaDigitavel'].errors['pattern']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [Linha Digitável] deve ser somente números !
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <hr>
+                <div style="float:left">
+                    <!-- I USE FORMS VALIDATIONS -->
+                    <!-- <button type="submit" class="btn btn-success" [disabled]="!frmCliente.valid">Gravar</button> -->
+                    <button type="submit" class="btn btn-success">Gravar</button>
+                </div>
+                <div style="float:right">
+                    <button class="btn btn-warning" (click)="LimpaBoletoForms()">Limpar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div [ngClass]="{'col-sm-8': boletoSelecionado, 'col-sm-12': !boletoSelecionado}">
+        <app-titulo [p_titulo_componente]="p_titulo_boleto">
+            <button class="btn btn-success" style="float:right" (click)="boletoNovo()">Novo Boleto</button>
+        </app-titulo>
+        <table class="table table-light table-hover">
+            <!-- <table class="table table-light"> -->
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome cliente</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Linha digitável</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let v_boleto of oBoletos">
+                    <td scope="row">{{v_boleto.id}}</td>
+                    <td>{{v_boleto.nomeCliente}}</td>
+                    <td>{{v_boleto.valor}}</td>
+                    <td>{{v_boleto.linhaDigitavel}}</td>
+                    <td>
+                        <button class="text-dark btn btn-sm btn-outline-warning"
+                            (click)="boletoSelect(v_boleto)">Detalhe</button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="boletoExcluir(v_boleto)">Excluir</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

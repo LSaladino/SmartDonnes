@@ -1,0 +1,127 @@
+<div class="row" style="margin-left: 2px;margin-right: 2px;">
+    <div class="col-sm-4" *ngIf="pixSelecionado">
+
+        <div class="row">
+            <div class="mr-auto">
+                <app-titulo
+                    [p_titulo_componente]="pixSelecionado.id == 0 ? 'Novo pix': 'ID: '+ pixSelecionado.id "></app-titulo>
+            </div>
+            <div class="mt-1" style="text-align: right;">
+                <button class="btn btn-outline-danger" (click)="Voltar()">Fechar</button>
+            </div>
+        </div>
+
+        <form [formGroup]="frmPix" (ngSubmit)="SendPix()">
+
+            <!-- NOME CLIENTE -->
+            <div class="form-group">
+                <label for="lblnomecliente">Nome Cliente</label>
+                <input type="text" class="form-control" formControlName="nomeCliente"
+                    [ngClass]="{'is-invalid':p_submitted && frmPix.controls['nomeCliente'].errors}">
+
+                <div *ngIf="p_submitted && frmPix.controls['nomeCliente'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmPix.controls['nomeCliente'].errors['required']">
+                        [Nome cliente] é obrigatório !
+                    </div>
+                    <div *ngIf="p_submitted && frmPix.controls['nomeCliente'].errors['minlength']">
+                        [Nome cliente] deve ter no mínimo 3 caracteres !
+                    </div>
+                </div>
+            </div>
+
+            <!-- VALOR -->
+
+            <div class="form-group">
+                <label for="lblvalor" class="for">Valor</label>
+                <input type="text" class="form-control" formControlName="valor"
+                    [ngClass]="{'is-invalid':p_submitted && frmPix.controls['valor'].errors}">
+
+                <div *ngIf="p_submitted && frmPix.controls['valor'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmPix.controls['valor'].errors['required']">
+                        [Valor] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmPix.controls['valor'].errors['minlength']">
+                        [Valor] deve ter no mínimo 5 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmPix.controls['valor'].errors['pattern']">
+                        [Valor] deve ser números !
+                    </div>
+                </div>
+            </div>
+
+            <!-- QRCODE -->
+            <div class="form-group">
+                <label for="lblqrcode" class="for">QR Code</label>
+                <input type="text" class="form-control" formControlName="qrCode" [(ngModel)] = "v_qrCode"
+                    [ngClass]="{'is-invalid':p_submitted && frmPix.controls['qrCode'].errors}">
+
+                <div *ngIf="p_submitted && frmPix.controls['qrCode'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmPix.controls['qrCode'].errors['required']">
+                        [QR Code] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmPix.controls['qrCode'].errors['minlength']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [QR Code] deve ter no mínimo 9 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmPix.controls['qrCode'].errors['maxLength']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [QR Code] deve ter no máximo 10 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmPix.controls['qrCode'].errors['pattern']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [QR Code] deve ser somente números !
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <!-- <qrcode [qrdata]="v_qrCode" [width]="124"    [allowEmptyString]="true"></qrcode> -->
+                    <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="v_qrCode" [width]="256" [errorCorrectionLevel]="'M'" [allowEmptyString]="true"></qrcode>
+                    <a [href]="v_qrCodeDownloadLink" download="qrcode">Download</a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <hr>
+                <div style="float:left">
+                    <!-- I USE FORMS VALIDATIONS -->
+                    <button type="submit" class="btn btn-success">Gravar</button>
+                </div>
+                <div style="float:right">
+                    <button class="btn btn-warning" (click)="LimpaPixForms()">Limpar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div [ngClass]="{'col-sm-8': pixSelecionado, 'col-sm-12': !pixSelecionado}">
+        <app-titulo [p_titulo_componente]="p_titulo_pix">
+            <button class="btn btn-success" style="float:right" (click)="pixNovo()">Novo Pix</button>
+        </app-titulo>
+        <table class="table table-light table-hover">
+            <!-- <table class="table table-light"> -->
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome cliente</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">QR Code</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let v_pix of oPixes">
+                    <td scope="row">{{v_pix.id}}</td>
+                    <td>{{v_pix.nomeCliente}}</td>
+                    <td>{{v_pix.valor}}</td>
+                    <td>{{v_pix.qrCode}}</td>
+                    <td>
+                        <button class="text-dark btn btn-sm btn-outline-warning"
+                            (click)="pixSelect(v_pix)">Detalhe</button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="pixExcluir(v_pix)">Excluir</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

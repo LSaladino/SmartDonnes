@@ -1,0 +1,182 @@
+<div class="row" style="margin-left: 2px;margin-right: 2px;">
+    <div class="col-sm-4" *ngIf="meioPagSelecionado">
+
+        <div class="row">
+            <div class="mr-auto">
+                <app-titulo
+                    [p_titulo_componente]="meioPagSelecionado.id == 0 ? 'Novo Meio Pagamento': 'ID: '+ meioPagSelecionado.id "></app-titulo>
+            </div>
+            <div class="mt-1" style="text-align: right;">
+                <button class="btn btn-outline-danger" (click)="Voltar()">Fechar</button>
+            </div>
+        </div>
+
+        <form [formGroup]="frmMeioPag" (ngSubmit)="SendMeioPagamento(frmMeioPag.value)">
+
+
+            <mat-form-field>
+                <mat-label>Meios de Pagamento</mat-label>
+                <mat-select [(value)]="selected">
+                  <mat-option value="1">Boleto</mat-option>
+                  <mat-option value="2">Pix</mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+
+            <p>You selected: {{selected}}</p>
+
+
+            <!-- NOME CLIENTE -->
+            <div class="form-group">
+                <label for="lblnomecliente">Nome Cliente</label>
+                <input type="text" class="form-control" formControlName="nomeCliente"
+                    [ngClass]="{'is-invalid':p_submitted && frmMeioPag.controls['nomeCliente'].errors}">
+
+                <div *ngIf="p_submitted && frmMeioPag.controls['nomeCliente'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmMeioPag.controls['nomeCliente'].errors['required']">
+                        [Nome cliente] é obrigatório !
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['nomeCliente'].errors['minlength']">
+                        [Nome cliente] deve ter no mínimo 3 caracteres !
+                    </div>
+                </div>
+            </div>
+            <br>
+            <!-- VALOR -->
+
+            <div class="form-group">
+                <label for="lblvalor" class="for">Valor</label>
+                <input type="text" class="form-control" formControlName="valor"
+                    [ngClass]="{'is-invalid':p_submitted && frmMeioPag.controls['valor'].errors}">
+
+                <div *ngIf="p_submitted && frmMeioPag.controls['valor'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmMeioPag.controls['valor'].errors['required']">
+                        [Valor] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['valor'].errors['minlength']">
+                        [Valor] deve ter no mínimo 5 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['valor'].errors['pattern']">
+                        [Valor] deve ser números !
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- LINHA DIGITAVEL -->
+            <div class="form-group">
+                <label for="lbllinhadigitavel" class="for">Linha Digitável</label>
+                <input type="text" class="form-control" formControlName="linhaDigitavel"
+                    [ngClass]="{'is-invalid':p_submitted && frmMeioPag.controls['linhaDigitavel'].errors}">
+
+                <div *ngIf="p_submitted && frmMeioPag.controls['linhaDigitavel'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmMeioPag.controls['linhaDigitavel'].errors['required']">
+                        [Linha digitável] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['linhaDigitavel'].errors['minlength']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [Linha Digitável] deve ter no mínimo 9 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['linhaDigitavel'].errors['maxLength']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [Linha Digitável] deve ter no máximo 10 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['linhaDigitavel'].errors['pattern']">
+                        <!-- [Linha Digitável] deve ter no mínimo 47 caracteres ! -->
+                        [Linha Digitável] deve ser somente números !
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- QRCODE -->
+            <!-- <input type="text" class="form-control" formControlName="qrCode" [(ngModel)] = "v_qrCode"
+                    [ngClass]="{'is-invalid':p_submitted && frmMeioPag.controls['qrCode'].errors}"> -->
+
+            <!-- <div class="form-group">
+                <label for="lblqrcode" class="for">QR Code</label>
+                <input type="text" class="form-control" formControlName="qrCode" 
+                    [ngClass]="{'is-invalid':p_submitted && frmMeioPag.controls['qrCode'].errors}">
+
+                <div *ngIf="p_submitted && frmMeioPag.controls['qrCode'].errors" class="text-danger">
+                    <div *ngIf="p_submitted && frmMeioPag.controls['qrCode'].errors['required']">
+                        [QR Code] é obrigatório
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['qrCode'].errors['minlength']">
+                        [QR Code] deve ter no mínimo 9 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['qrCode'].errors['maxLength']">
+                        [QR Code] deve ter no máximo 10 caracteres !
+                    </div>
+                    <div *ngIf="p_submitted && frmMeioPag.controls['qrCode'].errors['pattern']">
+                        [QR Code] deve ser somente números !
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="v_qrCode" [width]="256"
+                        [errorCorrectionLevel]="'M'" [allowEmptyString]="true"></qrcode>
+                    <a [href]="v_qrCodeDownloadLink" download="qrcode">Download</a>
+                </div>
+            </div> -->
+
+            <div *ngIf="meioPagSelecionado.id != 0">
+                <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="v_qrCode" [width]="256" [errorCorrectionLevel]="'M'"
+                    [allowEmptyString]="true"></qrcode>
+                <a [href]="v_qrCodeDownloadLink" download="qrcode">Download</a>
+            </div>
+
+            <div class="form-group">
+                <hr>
+                <div style="width: 1000px;margin: 0 auto;">
+                    <div style="float:left;">
+                        <!-- I USE FORMS VALIDATIONS -->
+                        <button type="submit" class="btn btn-success">Gravar</button>
+                    </div>
+                    <!-- <div *ngIf="meioPagSelecionado.id !=0" style="float: left;margin-left: 50px;">
+                        <button class="btn btn-primary" (click)="GerarQRCode(frmMeioPag.value)">Gerar QR Code</button>
+                    </div> -->
+                    <div style="float: left;margin-left: 50px;">
+                        <button class="btn btn-warning" (click)="LimpaMeioPagForms()">Limpar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div [ngClass]="{'col-sm-8': meioPagSelecionado, 'col-sm-12': !meioPagSelecionado}">
+        <app-titulo [p_titulo_componente]="p_titulo_meio_pag">
+            <button class="btn btn-success" style="float:right" (click)="meioPagNovo()">Novo Meio Pagamento</button>
+        </app-titulo>
+        <table class="table table-light table-hover">
+            <!-- <table class="table table-light"> -->
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome cliente</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Linha Digitavel</th>
+                    <th scope="col">QR Code</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let v_meiopag of oMeioPagamentos">
+                    <td scope="row">{{v_meiopag.id}}</td>
+                    <td>{{v_meiopag.nomeCliente}}</td>
+                    <td>{{v_meiopag.valor}}</td>
+                    <td>{{v_meiopag.linhaDigitavel}}</td>
+                    <td>{{v_meiopag.qrCode}}</td>
+                    <td>
+                        <button class="text-dark btn btn-sm btn-outline-warning"
+                            (click)="meioPagSelect(v_meiopag)">Detalhe</button>
+                        <button class="btn btn-sm btn-outline-danger"
+                            (click)="meioPagExcluir(v_meiopag)">Excluir</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

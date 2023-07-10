@@ -1,4 +1,4 @@
 export const MY_ENVIRONMENT = {
     production: false,
-    mainUrl: 'http://localhost:5037'
+    mainUrl: 'https://websinaf.azurewebsites.net'
 }
